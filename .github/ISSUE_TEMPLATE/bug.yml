@@ -1,0 +1,27 @@
+name: Bug
+description: Something does not work as expected
+title: "bug: "
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: grpcurl call, app steps, or test case.
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: Service, app screen or environment (local k3d, homelab).

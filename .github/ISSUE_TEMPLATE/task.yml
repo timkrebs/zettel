@@ -1,0 +1,35 @@
+name: Task
+description: A planned piece of work (≈ 1–3 hours)
+title: "Z-XX: "
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: One sentence on what this task achieves.
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: Acceptance criteria as a checklist.
+      value: |
+        - [ ] 
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Hints, links to the plan or ADRs.
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      options:
+        - S (≈ 1 h)
+        - M (2–3 h)
+    validations:
+      required: true

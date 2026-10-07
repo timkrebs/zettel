@@ -1,0 +1,1276 @@
+{
+  "sprints": [
+    {
+      "index": 0,
+      "title": "Sprint 0 – Foundation",
+      "start": "2026-10-12",
+      "duration_days": 14,
+      "goal": "An empty repo where `make lint test` passes locally and in CI."
+    },
+    {
+      "index": 1,
+      "title": "Sprint 1 – Platform core",
+      "start": "2026-10-26",
+      "duration_days": 14,
+      "goal": "user-service starts, connects to Postgres, answers health checks and shuts down cleanly on SIGTERM."
+    },
+    {
+      "index": 2,
+      "title": "Sprint 2 – Dev sign-in",
+      "start": "2026-11-09",
+      "duration_days": 14,
+      "goal": "Get a token via `DevSignIn` with grpcurl and call `GetMe` with it."
+    },
+    {
+      "index": 3,
+      "title": "Sprint 3 – Households",
+      "start": "2026-11-23",
+      "duration_days": 14,
+      "goal": "Two dev users share a household via an invite code."
+    },
+    {
+      "index": 4,
+      "title": "Sprint 4 – list-service",
+      "start": "2026-12-07",
+      "duration_days": 14,
+      "goal": "Household members manage lists via grpcurl; strangers get `PermissionDenied`."
+    },
+    {
+      "index": 5,
+      "title": "Sprint 5 – Items",
+      "start": "2027-01-04",
+      "duration_days": 14,
+      "goal": "Add, check off and delete items; concurrent changes end in `Aborted` instead of silent overwrites."
+    },
+    {
+      "index": 6,
+      "title": "Sprint 6 – Real-time sync",
+      "start": "2027-01-18",
+      "duration_days": 14,
+      "goal": "Two grpcurl sessions see each other's changes live."
+    },
+    {
+      "index": 7,
+      "title": "Sprint 7 – Local Kubernetes",
+      "start": "2027-02-01",
+      "duration_days": 14,
+      "goal": "The whole system runs in k3d and is reachable through Traefik via grpcurl."
+    },
+    {
+      "index": 8,
+      "title": "Sprint 8 – iOS basics",
+      "start": "2027-02-15",
+      "duration_days": 14,
+      "goal": "The app signs in via dev login and shows households and lists from the k3d cluster."
+    },
+    {
+      "index": 9,
+      "title": "Sprint 9 – Live updates in the app",
+      "start": "2027-03-01",
+      "duration_days": 14,
+      "goal": "Two simulators edit the same list and see changes instantly."
+    },
+    {
+      "index": 10,
+      "title": "Sprint 10 – Sign in with Apple",
+      "start": "2027-03-15",
+      "duration_days": 14,
+      "goal": "Sign-in via Apple only; expired tokens refresh silently."
+    },
+    {
+      "index": 11,
+      "title": "Sprint 11 – Homelab",
+      "start": "2027-03-29",
+      "duration_days": 14,
+      "goal": "Zettel runs in the homelab K3s cluster and is reachable from outside."
+    },
+    {
+      "index": 12,
+      "title": "Sprint 12 – Operations & daily use",
+      "start": "2027-04-12",
+      "duration_days": 14,
+      "goal": "Metrics and logs are visible, and the household uses Zettel via TestFlight."
+    }
+  ],
+  "milestones": [
+    {
+      "title": "M1 – Backend complete locally",
+      "due": "2027-01-31",
+      "description": "All three services run locally; two grpcurl sessions sync live.",
+      "sprints": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "title": "M2 – Runs in k3d",
+      "due": "2027-02-14",
+      "description": "The whole system runs in a local k3d cluster behind Traefik.",
+      "sprints": [
+        7
+      ]
+    },
+    {
+      "title": "M3 – App MVP",
+      "due": "2027-03-28",
+      "description": "The iOS app signs in with Apple and edits shared lists live.",
+      "sprints": [
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "title": "M4 – Ready for daily use in the homelab",
+      "due": "2027-04-25",
+      "description": "Zettel runs in the homelab with monitoring and backups; the household uses it via TestFlight.",
+      "sprints": [
+        11,
+        12
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "name": "type:feature",
+      "color": "1f6feb",
+      "description": "New functionality"
+    },
+    {
+      "name": "type:chore",
+      "color": "8b949e",
+      "description": "Setup, tooling, infrastructure"
+    },
+    {
+      "name": "type:spike",
+      "color": "d29922",
+      "description": "Time-boxed investigation that ends in a decision"
+    },
+    {
+      "name": "type:docs",
+      "color": "0e8a16",
+      "description": "Documentation and ADRs"
+    },
+    {
+      "name": "type:bug",
+      "color": "d73a4a",
+      "description": "Something does not work as expected"
+    }
+  ],
+  "areas": [
+    "repo",
+    "proto",
+    "platform",
+    "user",
+    "list",
+    "sync",
+    "infra",
+    "deploy",
+    "ci",
+    "ios",
+    "docs",
+    "ops"
+  ],
+  "tickets": [
+    {
+      "id": "Z-01",
+      "sprint": 0,
+      "area": "repo",
+      "size": "S",
+      "type": "chore",
+      "title": "Initialise Go module, .gitignore and LICENSE",
+      "goal": "The repo is a buildable Go module.",
+      "done": [
+        "`go.mod` declares `github.com/timkrebs/zettel`",
+        "`.gitignore` covers Go binaries, `.env` and Xcode user data",
+        "A LICENSE of your choice is in the root",
+        "`go build ./...` succeeds"
+      ],
+      "notes": "README, docs and ADRs are already in the repo.",
+      "section": "modules--repository-layout"
+    },
+    {
+      "id": "Z-02",
+      "sprint": 0,
+      "area": "repo",
+      "size": "S",
+      "type": "chore",
+      "title": "Create folder layout and Makefile",
+      "goal": "Every recurring command has a make target.",
+      "done": [
+        "Folders from the plan exist (`cmd/`, `internal/`, `proto/`, `migrations/`, `deploy/`)",
+        "Makefile targets `lint`, `test`, `gen`, `help`",
+        "`make help` lists all targets with a short description"
+      ],
+      "notes": "A self-documenting `help` target can parse `## comments` after each target.",
+      "section": "modules--repository-layout"
+    },
+    {
+      "id": "Z-03",
+      "sprint": 0,
+      "area": "proto",
+      "size": "M",
+      "type": "chore",
+      "title": "Set up buf and a first user.proto",
+      "goal": "Protobuf code generation works with one command.",
+      "done": [
+        "`buf.yaml` with lint `STANDARD` and breaking `FILE`",
+        "`buf.gen.yaml` generates Go and gRPC code into `gen/go`",
+        "`proto/zettel/user/v1/user.proto` with an empty `UserService`",
+        "`make gen` produces code that compiles"
+      ],
+      "notes": "Use remote plugins `buf.build/protocolbuffers/go` and `buf.build/grpc/go` so you don't need local protoc plugins.",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-04",
+      "sprint": 0,
+      "area": "ci",
+      "size": "S",
+      "type": "chore",
+      "title": "Configure golangci-lint",
+      "goal": "Code style problems are caught automatically.",
+      "done": [
+        "`.golangci.yml` in the root",
+        "Linters at least: errcheck, govet, staticcheck, revive, gofmt",
+        "`gen/` is excluded",
+        "`make lint` reports no findings"
+      ],
+      "notes": "",
+      "section": "tech-stack--conventions"
+    },
+    {
+      "id": "Z-05",
+      "sprint": 0,
+      "area": "ci",
+      "size": "M",
+      "type": "chore",
+      "title": "GitHub Actions: lint, buf and tests on every PR",
+      "goal": "Every PR shows whether the code is healthy.",
+      "done": [
+        "Workflow runs on pull requests and on pushes to `main`",
+        "Steps: golangci-lint, `buf lint`, `go test ./...`",
+        "A PR shows a green check"
+      ],
+      "notes": "Later (Z-57) this workflow gets an image build job.",
+      "section": "tech-stack--conventions"
+    },
+    {
+      "id": "Z-06",
+      "sprint": 0,
+      "area": "infra",
+      "size": "S",
+      "type": "chore",
+      "title": "docker-compose with Postgres for local development",
+      "goal": "A local Postgres is one command away.",
+      "done": [
+        "`docker-compose.yml` starts Postgres with a named volume",
+        "Credentials come from `.env` (not committed); `.env.example` is committed",
+        "`psql` connects to the database `zettel`"
+      ],
+      "notes": "",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-07",
+      "sprint": 0,
+      "area": "docs",
+      "size": "S",
+      "type": "docs",
+      "title": "Review and accept ADR-0001 to ADR-0006",
+      "goal": "The architecture decisions are your own.",
+      "done": [
+        "Each ADR in `docs/adr/` is read and adjusted where you decide differently",
+        "Status changed from Proposed to Accepted",
+        "ADR index in `docs/adr/README.md` updated"
+      ],
+      "notes": "",
+      "section": "architecture-decisions--open-questions"
+    },
+    {
+      "id": "Z-08",
+      "sprint": 1,
+      "area": "platform",
+      "size": "S",
+      "type": "feature",
+      "title": "platform/config: load env vars into a struct",
+      "goal": "Services read configuration from the environment in one place.",
+      "done": [
+        "`config.Load[T]()` (or similar) fills a struct from `ZETTEL_*` env vars",
+        "A missing required value stops startup with a clear error naming the variable",
+        "Unit test for missing and present values"
+      ],
+      "notes": "`caarlos0/env` does the heavy lifting.",
+      "section": "tech-stack--conventions"
+    },
+    {
+      "id": "Z-09",
+      "sprint": 1,
+      "area": "platform",
+      "size": "S",
+      "type": "feature",
+      "title": "platform/logging: slog JSON logger and logging interceptor",
+      "goal": "Every gRPC call leaves one structured log line.",
+      "done": [
+        "Logger writes JSON to stdout, level from config",
+        "Unary interceptor logs method, status code and duration",
+        "Errors are logged at error level"
+      ],
+      "notes": "",
+      "section": "modules--repository-layout"
+    },
+    {
+      "id": "Z-10",
+      "sprint": 1,
+      "area": "platform",
+      "size": "M",
+      "type": "feature",
+      "title": "platform/grpcserver: start, health, reflection, graceful shutdown",
+      "goal": "All services start the same way.",
+      "done": [
+        "Server listens on a configurable port",
+        "gRPC health service and reflection are registered",
+        "Interceptor chain is configurable",
+        "`grpcurl -plaintext localhost:9090 list` shows the services",
+        "SIGTERM stops accepting new calls and lets running calls finish"
+      ],
+      "notes": "Look at `GracefulStop` and `signal.NotifyContext`.",
+      "section": "modules--repository-layout"
+    },
+    {
+      "id": "Z-11",
+      "sprint": 1,
+      "area": "platform",
+      "size": "M",
+      "type": "feature",
+      "title": "platform/postgres: pgx pool and goose migrations on startup",
+      "goal": "A service connects to Postgres and migrates its schema on start.",
+      "done": [
+        "Connection pool from a DSN in config",
+        "Migrations embedded with `go:embed` and applied with goose on startup",
+        "An empty migration creates schema `user_svc`",
+        "Startup fails clearly if the database is unreachable"
+      ],
+      "notes": "",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-12",
+      "sprint": 1,
+      "area": "user",
+      "size": "S",
+      "type": "feature",
+      "title": "Wire up cmd/user-service/main.go",
+      "goal": "user-service runs locally against Postgres.",
+      "done": [
+        "`main.go` loads config, logger, DB, gRPC server",
+        "Service runs against the docker-compose Postgres",
+        "Health check returns SERVING"
+      ],
+      "notes": "",
+      "section": "modules--repository-layout"
+    },
+    {
+      "id": "Z-13",
+      "sprint": 2,
+      "area": "proto",
+      "size": "S",
+      "type": "feature",
+      "title": "user.proto: User, TokenPair, DevSignIn, GetMe",
+      "goal": "The first real API contract exists.",
+      "done": [
+        "Messages `User`, `TokenPair` and request/response per RPC",
+        "`DevSignIn` and `GetMe` in `UserService`",
+        "`buf lint` green, code generated"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-14",
+      "sprint": 2,
+      "area": "user",
+      "size": "M",
+      "type": "feature",
+      "title": "users table migration and repository with testcontainers tests",
+      "goal": "Users are stored and read back reliably.",
+      "done": [
+        "Migration for `user_svc.users`",
+        "Repository interface plus pgx implementation (`Create`, `GetByID`)",
+        "Tests run against a real Postgres via testcontainers-go"
+      ],
+      "notes": "",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-15",
+      "sprint": 2,
+      "area": "platform",
+      "size": "M",
+      "type": "feature",
+      "title": "platform/auth: issue and verify Ed25519 JWTs, unary interceptor",
+      "goal": "Calls are authenticated with self-issued JWTs.",
+      "done": [
+        "Issue access tokens with `sub` = user ID, `exp` = 15 min",
+        "Verify with the public key only",
+        "Unary interceptor puts the user ID into the context",
+        "Missing or invalid token → `Unauthenticated`",
+        "Allow-list for methods without auth (sign-in RPCs, health)"
+      ],
+      "notes": "",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-16",
+      "sprint": 2,
+      "area": "user",
+      "size": "M",
+      "type": "feature",
+      "title": "Implement DevSignIn and GetMe",
+      "goal": "You can get a token and call an authenticated RPC with grpcurl.",
+      "done": [
+        "`DevSignIn` creates a user for a display name and returns tokens",
+        "`DevSignIn` returns `Unimplemented` unless `ZETTEL_DEV_LOGIN=true`",
+        "`GetMe` returns the caller's profile",
+        "Demo: grpcurl sign-in, then `GetMe` with the token"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-17",
+      "sprint": 2,
+      "area": "user",
+      "size": "S",
+      "type": "feature",
+      "title": "Handler tests with bufconn",
+      "goal": "Handlers are tested end to end without a network.",
+      "done": [
+        "Test server via `bufconn` with the real interceptor chain",
+        "Test covers sign-in and `GetMe`, with and without token"
+      ],
+      "notes": "",
+      "section": "tech-stack--conventions"
+    },
+    {
+      "id": "Z-18",
+      "sprint": 3,
+      "area": "proto",
+      "size": "S",
+      "type": "feature",
+      "title": "Extend user.proto with household RPCs and MembershipService",
+      "goal": "The household API contract is defined.",
+      "done": [
+        "RPCs: `CreateHousehold`, `ListMyHouseholds`, `CreateInvite`, `AcceptInvite`, `ListMembers`, `LeaveHousehold`",
+        "Separate internal `MembershipService.CheckMembership`",
+        "`buf lint` green"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-19",
+      "sprint": 3,
+      "area": "user",
+      "size": "S",
+      "type": "feature",
+      "title": "Migrations for households, household_members, invites",
+      "goal": "The household tables exist.",
+      "done": [
+        "Tables as in the data model",
+        "Migration runs up and down cleanly"
+      ],
+      "notes": "",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-20",
+      "sprint": 3,
+      "area": "user",
+      "size": "M",
+      "type": "feature",
+      "title": "CreateHousehold and ListMyHouseholds",
+      "goal": "A user can create households and list their own.",
+      "done": [
+        "Creator is stored as `owner` in one transaction with the household",
+        "`ListMyHouseholds` returns only the caller's households"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-21",
+      "sprint": 3,
+      "area": "user",
+      "size": "M",
+      "type": "feature",
+      "title": "CreateInvite and AcceptInvite",
+      "goal": "A second user joins a household with a code.",
+      "done": [
+        "Code: 8 characters, no ambiguous characters, valid 48 h",
+        "Only members can create invites",
+        "A used or expired code → `FailedPrecondition`",
+        "Joining twice is idempotent"
+      ],
+      "notes": "Generate codes with `crypto/rand`.",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-22",
+      "sprint": 3,
+      "area": "user",
+      "size": "M",
+      "type": "feature",
+      "title": "ListMembers and LeaveHousehold",
+      "goal": "Members can see each other and leave.",
+      "done": [
+        "`ListMembers` only for members, else `PermissionDenied`",
+        "The last owner cannot leave → `FailedPrecondition`"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-23",
+      "sprint": 3,
+      "area": "user",
+      "size": "S",
+      "type": "feature",
+      "title": "CheckMembership (internal)",
+      "goal": "Other services can ask whether a user belongs to a household.",
+      "done": [
+        "Returns membership and role",
+        "Correct answer for member and non-member",
+        "Not exposed through the ingress later (see ADR-0002)"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-24",
+      "sprint": 4,
+      "area": "proto",
+      "size": "M",
+      "type": "feature",
+      "title": "Complete list.proto",
+      "goal": "The list API contract is defined.",
+      "done": [
+        "`List` and `Item` messages with `version`",
+        "All RPCs from the plan with `expected_version` where needed",
+        "`buf lint` green"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-25",
+      "sprint": 4,
+      "area": "list",
+      "size": "M",
+      "type": "feature",
+      "title": "cmd/list-service and migrations for lists and items",
+      "goal": "list-service starts with its own schema.",
+      "done": [
+        "`main.go` reuses the platform packages",
+        "Migrations for `list_svc.lists` and `list_svc.items`",
+        "Own DB role with rights only on `list_svc`"
+      ],
+      "notes": "",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-26",
+      "sprint": 4,
+      "area": "list",
+      "size": "M",
+      "type": "feature",
+      "title": "gRPC client to user-service, authorization via CheckMembership",
+      "goal": "Only household members can touch a household's lists.",
+      "done": [
+        "Client with timeout per call",
+        "Every RPC checks membership first",
+        "Non-member → `PermissionDenied`",
+        "user-service unreachable → `Unavailable`"
+      ],
+      "notes": "Hide the client behind an interface so the service can be tested with a fake.",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-27",
+      "sprint": 4,
+      "area": "list",
+      "size": "M",
+      "type": "feature",
+      "title": "CreateList, ListLists, RenameList, ArchiveList",
+      "goal": "Household members manage lists.",
+      "done": [
+        "All four RPCs implemented",
+        "`RenameList` respects `expected_version`",
+        "Archived lists no longer appear in `ListLists`",
+        "Demo via grpcurl"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-28",
+      "sprint": 5,
+      "area": "list",
+      "size": "M",
+      "type": "feature",
+      "title": "AddItem, ListItems, DeleteItem (soft delete)",
+      "goal": "Items can be added, listed and removed.",
+      "done": [
+        "`AddItem` validates name (not empty, max length)",
+        "`ListItems` can hide checked items",
+        "Deleted items set `deleted_at` and no longer appear"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-29",
+      "sprint": 5,
+      "area": "list",
+      "size": "M",
+      "type": "feature",
+      "title": "UpdateItem and SetItemChecked with expected_version",
+      "goal": "Concurrent changes never overwrite each other silently.",
+      "done": [
+        "Update uses `WHERE id = $1 AND version = $2`",
+        "Stale version → `Aborted`",
+        "`SetItemChecked` records `checked_by`"
+      ],
+      "notes": "See ADR-0005.",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-30",
+      "sprint": 5,
+      "area": "list",
+      "size": "M",
+      "type": "feature",
+      "title": "Repository tests for version conflicts",
+      "goal": "Optimistic locking is proven by tests.",
+      "done": [
+        "Two parallel updates with the same version: exactly one succeeds",
+        "Tests run against real Postgres"
+      ],
+      "notes": "",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-31",
+      "sprint": 5,
+      "area": "proto",
+      "size": "S",
+      "type": "feature",
+      "title": "sync.proto: Event, Subscribe, Publish",
+      "goal": "The sync API contract is defined.",
+      "done": [
+        "`Event` with `oneof` payload as in the plan",
+        "`SyncService.Subscribe` (server stream) and internal `SyncInternalService.Publish`",
+        "`buf lint` green"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-32",
+      "sprint": 6,
+      "area": "sync",
+      "size": "M",
+      "type": "feature",
+      "title": "Hub: per-household subscriptions with channels, clean unsubscribe",
+      "goal": "Events fan out to every subscriber of a household.",
+      "done": [
+        "Subscribe returns a channel; unsubscribe closes it",
+        "Subscription ends when the client disconnects",
+        "No goroutine leaks (check with a test)"
+      ],
+      "notes": "Protect the map with a mutex; keep the design simple.",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-33",
+      "sprint": 6,
+      "area": "sync",
+      "size": "M",
+      "type": "feature",
+      "title": "Subscribe with stream interceptor and membership check",
+      "goal": "Only members receive a household's events.",
+      "done": [
+        "Stream interceptor in `platform/auth` authenticates streams",
+        "Non-member → `PermissionDenied`",
+        "Stream sends events until the client disconnects"
+      ],
+      "notes": "",
+      "section": "api-design"
+    },
+    {
+      "id": "Z-34",
+      "sprint": 6,
+      "area": "sync",
+      "size": "M",
+      "type": "feature",
+      "title": "Publish (internal); list-service sends an event after every change",
+      "goal": "Every list or item change reaches the hub.",
+      "done": [
+        "`Publish` forwards to the hub",
+        "list-service publishes after each successful write",
+        "A failed publish is logged and does not fail the write",
+        "Demo: `AddItem` shows up in an open stream"
+      ],
+      "notes": "",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-35",
+      "sprint": 6,
+      "area": "sync",
+      "size": "S",
+      "type": "feature",
+      "title": "Keepalive and slow clients",
+      "goal": "A stuck client cannot block the hub.",
+      "done": [
+        "Server keepalive parameters configured",
+        "A full subscriber buffer closes that stream",
+        "Behaviour covered by a test"
+      ],
+      "notes": "",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-36",
+      "sprint": 6,
+      "area": "sync",
+      "size": "S",
+      "type": "chore",
+      "title": "Hub tests with go test -race",
+      "goal": "The hub is free of data races.",
+      "done": [
+        "Concurrent subscribe/publish/unsubscribe test",
+        "`go test -race ./internal/sync/...` is clean",
+        "CI runs tests with `-race`"
+      ],
+      "notes": "",
+      "section": "tech-stack--conventions"
+    },
+    {
+      "id": "Z-37",
+      "sprint": 7,
+      "area": "infra",
+      "size": "M",
+      "type": "chore",
+      "title": "Multi-stage Dockerfile, one image per service",
+      "goal": "Each service ships as a small container image.",
+      "done": [
+        "One Dockerfile with a build arg for the service",
+        "Final stage `distroless/static`, non-root",
+        "Images under 30 MB and start locally"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-38",
+      "sprint": 7,
+      "area": "infra",
+      "size": "S",
+      "type": "chore",
+      "title": "k3d cluster config with registry, make cluster-up",
+      "goal": "A local cluster is one command away.",
+      "done": [
+        "`deploy/k3d/cluster.yaml`: 1 server, 2 agents, local registry, port 8080",
+        "`make cluster-up` / `make cluster-down`"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-39",
+      "sprint": 7,
+      "area": "deploy",
+      "size": "M",
+      "type": "chore",
+      "title": "Postgres StatefulSet, schemas and roles per service",
+      "goal": "Postgres runs in the cluster with one schema per service.",
+      "done": [
+        "StatefulSet with PVC",
+        "Init script creates schemas and roles",
+        "Both services migrate on startup"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-40",
+      "sprint": 7,
+      "area": "deploy",
+      "size": "M",
+      "type": "chore",
+      "title": "Kustomize base: Deployments, Services, ConfigMaps, Secrets, gRPC probes",
+      "goal": "All services run in k3d.",
+      "done": [
+        "Base plus `local` overlay",
+        "Native gRPC readiness and liveness probes",
+        "Secrets from `secretGenerator` and a local `.env`",
+        "All pods `Ready`"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-41",
+      "sprint": 7,
+      "area": "deploy",
+      "size": "S",
+      "type": "chore",
+      "title": "Traefik IngressRoute with h2c and path routing",
+      "goal": "The cluster is reachable from your machine via gRPC.",
+      "done": [
+        "Routes by gRPC path prefix to each public service",
+        "Sign-in, lists and stream work via `localhost:8080`",
+        "Internal RPCs are not reachable from outside"
+      ],
+      "notes": "See ADR-0002.",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-42",
+      "sprint": 8,
+      "area": "ios",
+      "size": "S",
+      "type": "chore",
+      "title": "Xcode project under ios/, SwiftUI skeleton",
+      "goal": "The app exists and starts.",
+      "done": [
+        "Xcode project in `ios/Zettel`",
+        "App starts in the simulator with a placeholder screen"
+      ],
+      "notes": "",
+      "section": "modules--repository-layout"
+    },
+    {
+      "id": "Z-43",
+      "sprint": 8,
+      "area": "ios",
+      "size": "M",
+      "type": "chore",
+      "title": "Generate Swift clients from the protos",
+      "goal": "The app uses the same API contract as the backend.",
+      "done": [
+        "`buf.gen.yaml` also generates Swift (grpc-swift 2)",
+        "`make gen` updates Go and Swift code",
+        "Generated code compiles in Xcode"
+      ],
+      "notes": "",
+      "section": "tech-stack--conventions"
+    },
+    {
+      "id": "Z-44",
+      "sprint": 8,
+      "area": "ios",
+      "size": "M",
+      "type": "feature",
+      "title": "API client with auth header, token in Keychain",
+      "goal": "The app makes authenticated calls.",
+      "done": [
+        "One client type wraps all services",
+        "Interceptor adds `authorization: Bearer`",
+        "Token stored in the Keychain and survives an app restart"
+      ],
+      "notes": "",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-45",
+      "sprint": 8,
+      "area": "ios",
+      "size": "M",
+      "type": "feature",
+      "title": "Screens: dev sign-in, create and join household",
+      "goal": "A user can get into a household from the app.",
+      "done": [
+        "Dev sign-in screen with display name",
+        "Create a household",
+        "Join with an invite code"
+      ],
+      "notes": "",
+      "section": "overview"
+    },
+    {
+      "id": "Z-46",
+      "sprint": 8,
+      "area": "ios",
+      "size": "S",
+      "type": "feature",
+      "title": "Screen: lists of a household",
+      "goal": "The user sees and creates lists.",
+      "done": [
+        "Lists appear for the selected household",
+        "New list can be created"
+      ],
+      "notes": "",
+      "section": "overview"
+    },
+    {
+      "id": "Z-47",
+      "sprint": 9,
+      "area": "ios",
+      "size": "M",
+      "type": "feature",
+      "title": "List detail: show, add, check off, swipe to delete",
+      "goal": "Items can be managed in the app.",
+      "done": [
+        "All actions go to the backend",
+        "UI shows quantity and note",
+        "Swipe to delete"
+      ],
+      "notes": "",
+      "section": "overview"
+    },
+    {
+      "id": "Z-48",
+      "sprint": 9,
+      "area": "ios",
+      "size": "M",
+      "type": "feature",
+      "title": "Subscribe stream in the app, UI reacts to events",
+      "goal": "Changes from other devices appear without reloading.",
+      "done": [
+        "App subscribes when a household is open",
+        "Events update the local state",
+        "Demo with two simulators"
+      ],
+      "notes": "",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-49",
+      "sprint": 9,
+      "area": "ios",
+      "size": "M",
+      "type": "feature",
+      "title": "Reconnect: reload after a drop, then resubscribe",
+      "goal": "The app recovers from network loss.",
+      "done": [
+        "Stream end triggers a reload and a new subscription with backoff",
+        "Airplane mode on and off: the list is correct afterwards"
+      ],
+      "notes": "See ADR-0003: events during the outage are lost, the reload fixes that.",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-50",
+      "sprint": 9,
+      "area": "ios",
+      "size": "S",
+      "type": "feature",
+      "title": "Handle Aborted: reload and show a short hint",
+      "goal": "Conflicts never destroy user input.",
+      "done": [
+        "`Aborted` reloads the affected item",
+        "A short, non-blocking hint is shown"
+      ],
+      "notes": "See ADR-0005.",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-51",
+      "sprint": 10,
+      "area": "ios",
+      "size": "S",
+      "type": "chore",
+      "title": "Apple Developer Program, App ID with Sign in with Apple",
+      "goal": "The app is allowed to use Sign in with Apple.",
+      "done": [
+        "Developer account active",
+        "App ID with the Sign in with Apple capability",
+        "Capability enabled in the Xcode project"
+      ],
+      "notes": "Paid membership is required (see open questions in the plan).",
+      "section": "architecture-decisions--open-questions"
+    },
+    {
+      "id": "Z-52",
+      "sprint": 10,
+      "area": "user",
+      "size": "M",
+      "type": "feature",
+      "title": "SignInWithApple: verify token against Apple's JWKS, create user",
+      "goal": "Real users sign in with their Apple ID.",
+      "done": [
+        "Signature verified with Apple's JWKS (cached)",
+        "`iss`, `aud` (bundle ID) and `exp` checked",
+        "User found or created by `apple_sub`",
+        "Forged token → `Unauthenticated`"
+      ],
+      "notes": "See ADR-0006.",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-53",
+      "sprint": 10,
+      "area": "user",
+      "size": "M",
+      "type": "feature",
+      "title": "Refresh tokens: table, RefreshToken RPC, rotation",
+      "goal": "Sessions last 30 days without re-login.",
+      "done": [
+        "Migration for `refresh_tokens` (hash only)",
+        "`RefreshToken` returns a new pair and revokes the old token",
+        "A used refresh token is rejected"
+      ],
+      "notes": "",
+      "section": "data-model"
+    },
+    {
+      "id": "Z-54",
+      "sprint": 10,
+      "area": "ios",
+      "size": "M",
+      "type": "feature",
+      "title": "iOS: AuthenticationServices flow, refresh on Unauthenticated",
+      "goal": "The user signs in once and stays signed in.",
+      "done": [
+        "Sign in with Apple button replaces dev sign-in",
+        "On `Unauthenticated` the app refreshes once and retries",
+        "Works after the 15-minute access token expired"
+      ],
+      "notes": "",
+      "section": "architecture"
+    },
+    {
+      "id": "Z-55",
+      "sprint": 10,
+      "area": "deploy",
+      "size": "S",
+      "type": "chore",
+      "title": "Disable DevSignIn outside local",
+      "goal": "The dev shortcut cannot be used in the homelab.",
+      "done": [
+        "`ZETTEL_DEV_LOGIN` only `true` in the `local` overlay",
+        "In the `homelab` overlay DevSignIn returns `Unimplemented`"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-56",
+      "sprint": 11,
+      "area": "infra",
+      "size": "M",
+      "type": "spike",
+      "title": "Spike: gRPC through Cloudflare Tunnel, otherwise choose an alternative",
+      "goal": "Decide how the app reaches the homelab.",
+      "done": [
+        "Unary calls and a long-lived stream tested through the tunnel",
+        "Alternative evaluated if it fails (e.g. port forward with TLS, Tailscale)",
+        "ADR-0007 written with the decision"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-57",
+      "sprint": 11,
+      "area": "ci",
+      "size": "S",
+      "type": "chore",
+      "title": "CI builds images and pushes to ghcr.io",
+      "goal": "Every merge produces deployable images.",
+      "done": [
+        "Workflow builds all three images on push to `main`",
+        "Tag = Git SHA",
+        "Images visible in ghcr.io"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-58",
+      "sprint": 11,
+      "area": "deploy",
+      "size": "M",
+      "type": "chore",
+      "title": "CloudNativePG cluster with backups",
+      "goal": "The homelab database is managed and backed up.",
+      "done": [
+        "CloudNativePG operator installed",
+        "Cluster with schemas and roles per service",
+        "Scheduled backup runs"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-59",
+      "sprint": 11,
+      "area": "deploy",
+      "size": "M",
+      "type": "chore",
+      "title": "homelab overlay with TLS",
+      "goal": "The app connects securely from outside.",
+      "done": [
+        "`homelab` overlay with image tags, resources and TLS",
+        "App connects over TLS from a mobile network"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-60",
+      "sprint": 11,
+      "area": "ci",
+      "size": "S",
+      "type": "chore",
+      "title": "Deploy job on the self-hosted runner",
+      "goal": "A merge to main lands in the homelab.",
+      "done": [
+        "Job applies the `homelab` overlay with the new image tag",
+        "Rollout status checked in the job"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-61",
+      "sprint": 12,
+      "area": "platform",
+      "size": "M",
+      "type": "feature",
+      "title": "Prometheus metrics via interceptor, ServiceMonitor",
+      "goal": "Request rate, errors and latency are measurable.",
+      "done": [
+        "Interceptors record counters and histograms per method and code",
+        "`/metrics` endpoint per service",
+        "ServiceMonitor scraped by Prometheus"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-62",
+      "sprint": 12,
+      "area": "ops",
+      "size": "M",
+      "type": "chore",
+      "title": "Grafana dashboard: requests, errors, latency, open streams",
+      "goal": "System health is visible at a glance.",
+      "done": [
+        "Panels for rate, error ratio, p95 latency, open streams",
+        "Dashboard JSON committed to the repo"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-63",
+      "sprint": 12,
+      "area": "deploy",
+      "size": "M",
+      "type": "chore",
+      "title": "Secrets from Vault via the Vault Secrets Operator",
+      "goal": "No secret lives in the overlay anymore.",
+      "done": [
+        "DB credentials and JWT key come from Vault",
+        "Overlay contains only references"
+      ],
+      "notes": "",
+      "section": "deployment"
+    },
+    {
+      "id": "Z-64",
+      "sprint": 12,
+      "area": "ios",
+      "size": "S",
+      "type": "chore",
+      "title": "TestFlight build, invite household members",
+      "goal": "The household uses Zettel for real.",
+      "done": [
+        "TestFlight build uploaded",
+        "A second device uses the app daily"
+      ],
+      "notes": "",
+      "section": "overview"
+    },
+    {
+      "id": "Z-65",
+      "sprint": 12,
+      "area": "ops",
+      "size": "S",
+      "type": "chore",
+      "title": "Test a Postgres restore from backup",
+      "goal": "Backups are proven to work.",
+      "done": [
+        "Restore into a test namespace succeeds",
+        "Steps documented in `docs/runbooks/restore.md`"
+      ],
+      "notes": "",
+      "section": "deployment"
+    }
+  ],
+  "backlog": [
+    {
+      "title": "NATS instead of the in-memory hub, several sync replicas",
+      "area": "infra",
+      "notes": "Messaging, horizontal scaling. Supersedes ADR-0003."
+    },
+    {
+      "title": "suggestion-service: recurring purchase suggestions",
+      "area": "list",
+      "notes": "New service that analyses item history, e.g. \"You buy milk every 7 days\"."
+    },
+    {
+      "title": "Push notifications via APNs",
+      "area": "ios",
+      "notes": "External APIs, background jobs."
+    },
+    {
+      "title": "Offline mode with a local queue",
+      "area": "ios",
+      "notes": "Conflict resolution, client persistence."
+    },
+    {
+      "title": "Categories and sorting by store aisle",
+      "area": "list",
+      "notes": "Extend the data model without breaking changes."
+    },
+    {
+      "title": "Widget and Siri shortcut \"Add milk\"",
+      "area": "ios",
+      "notes": "App Intents, WidgetKit."
+    },
+    {
+      "title": "NetworkPolicies: internal RPCs only from list-service",
+      "area": "deploy",
+      "notes": "Kubernetes network security."
+    },
+    {
+      "title": "OpenTelemetry tracing across services",
+      "area": "platform",
+      "notes": "Distributed tracing."
+    },
+    {
+      "title": "GitOps with Argo CD or Flux",
+      "area": "deploy",
+      "notes": "Declarative deployment."
+    },
+    {
+      "title": "sqlc instead of hand-written SQL",
+      "area": "platform",
+      "notes": "Code generation for queries."
+    },
+    {
+      "title": "Rate limiting for sign-in RPCs",
+      "area": "platform",
+      "notes": "Interceptors, abuse protection."
+    }
+  ]
+}
